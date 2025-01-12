@@ -1,6 +1,8 @@
 import 'package:ecommerce/screens/choose_language_screen.dart';
 import 'package:ecommerce/screens/forgot_email_screen.dart';
 import 'package:ecommerce/screens/forgot_password_screen.dart';
+import 'package:ecommerce/screens/main_screen.dart';
+import 'package:ecommerce/screens/otp_verification_screen.dart';
 import 'package:ecommerce/screens/splash_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       title: 'Ecommerce App',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
-      home: SplashScreen(),
+      home: MainScreen(),
     );
   }
 }

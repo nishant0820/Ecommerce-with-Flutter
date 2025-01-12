@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  static const Color primaryColor = Color(0xFF4F46E5);
-  static const Color primaryLight = Color(0xFF818CF8);
-  static const Color primaryDark = Color(0xFF3730A3);
+  static const Color primaryColor = Color(0xFF26A69A);
+  static const Color primaryLight = Color(0xFFB2DFDB);
+  static const Color primaryDark = Color(0xFF00897B);
 
-  static const Color secondaryColor = Color(0xFFEC4899);
-  static const Color tertiaryColor = Color(0xFF14B8A6);
+  static const Color secondaryColor = Color(0xFF00B0FF);
+  static const Color tertiaryColor = Color(0xFF5C6BC0);
 
   static const List<Color> primaryGradient = [
     primaryColor,

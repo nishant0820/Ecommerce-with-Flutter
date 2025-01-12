@@ -1,3 +1,4 @@
+import 'package:ecommerce/screens/forgot_password_screen.dart';
 import 'package:ecommerce/screens/signup_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:ecommerce/widgets/custom_text_field.dart';
@@ -154,11 +155,11 @@ class LoginScreen extends StatelessWidget {
                           alignment: Alignment.centerRight,
                           child: TextButton(
                             onPressed: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) =>
-                              //             ForgotPasswordScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ForgotPasswordScreen()));
                             },
                             style: TextButton.styleFrom(
                               foregroundColor: AppTheme.primaryColor,
