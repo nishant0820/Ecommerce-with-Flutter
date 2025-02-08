@@ -1,3 +1,4 @@
+import 'package:ecommerce/screens/payment_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -432,6 +433,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ],
                   ),
                 ),
+                SizedBox(height: 100),
               ],
             ),
           ),
@@ -456,7 +458,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CheckoutScreen(),
+                  builder: (context) => PaymentScreen(),
                 ),
               );
             },
