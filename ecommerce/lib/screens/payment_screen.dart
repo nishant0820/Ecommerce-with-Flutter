@@ -1,3 +1,4 @@
+import 'package:ecommerce/screens/order_confirmation_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -236,12 +237,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
           child: GradientButton(
             text: "Confirm Order",
             onPressed: () {
-              //Navigator.push(
-              //  context,
-              //  MaterialPageRoute(
-              //    builder: (context) => PaymentScreen(),
-              //  ),
-              //);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OrderConfirmationScreen(),
+                ),
+              );
             },
           ),
         ),

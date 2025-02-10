@@ -1,3 +1,4 @@
+import 'package:ecommerce/screens/checkout_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -289,13 +290,13 @@ class CartScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 16),
-                      _buildSummaryRow("Subtotal", "\Rs. 1797.00"),
-                      _buildSummaryRow("Shipping", "\Rs. 100.00"),
-                      _buildSummaryRow("Tax", "\Rs. 89.00"),
+                      _buildSummaryRow("Subtotal", "Rs. 1797.00"),
+                      _buildSummaryRow("Shipping", "Rs. 100.00"),
+                      _buildSummaryRow("Tax", "Rs. 89.00"),
                       Divider(height: 24),
                       _buildSummaryRow(
                         "Total",
-                        "\Rs. 1986.00",
+                        "Rs. 1986.00",
                         isTotal: true,
                       ),
                     ],
@@ -322,7 +323,14 @@ class CartScreen extends StatelessWidget {
         child: SafeArea(
           child: GradientButton(
             text: "Proceed to Checkout",
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CheckoutScreen(),
+                ),
+              );
+            },
           ),
         ),
       ),

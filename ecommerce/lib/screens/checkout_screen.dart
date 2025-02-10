@@ -157,7 +157,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    '123 Main Street, Apt 4B\n New Delhi, DL 110053\nIndia',
+                    'F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia',
                     style: TextStyle(
                       color: AppTheme.textPrimary,
                     ),
