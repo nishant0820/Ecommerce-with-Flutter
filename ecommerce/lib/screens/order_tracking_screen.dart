@@ -1,4 +1,6 @@
+import 'package:ecommerce/screens/main_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
+import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class OrderTrackingScreen extends StatelessWidget {
@@ -310,15 +312,122 @@ class OrderTrackingScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.copy,
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 16),
+                      Divider(),
+                      SizedBox(height: 16),
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                color: AppTheme.primaryColor.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Icon(
+                              Icons.location_on_outlined,
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
+                          SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Delivery Address",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: AppTheme.textSecondary,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  "F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    color: AppTheme.textPrimary,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.copy,
+                              color: AppTheme.primaryColor,
+                            ),
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 100),
               ],
             ),
           ),
         ],
+      ),
+      bottomSheet: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: Offset(0, -5),
+            ),
+          ],
+        ),
+        child: SafeArea(
+          child: Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OrderTrackingScreen(),
+                        ),
+                      );
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      side: BorderSide(color: AppTheme.primaryColor),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: Text("View Order Details")),
+              ),
+              SizedBox(width: 16),
+              Expanded(
+                child: GradientButton(
+                  text: "Home",
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreen(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
