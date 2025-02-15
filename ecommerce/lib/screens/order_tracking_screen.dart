@@ -1,4 +1,5 @@
 import 'package:ecommerce/screens/main_screen.dart';
+import 'package:ecommerce/screens/order_details_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -398,7 +399,7 @@ class OrderTrackingScreen extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OrderTrackingScreen(),
+                          builder: (context) => OrderDetailsScreen(),
                         ),
                       );
                     },
