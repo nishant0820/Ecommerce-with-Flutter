@@ -1,4 +1,5 @@
 import 'package:ecommerce/screens/product_details_screen.dart';
+import 'package:ecommerce/screens/search_filter_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -122,32 +123,30 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            onSubmitted: (value) {
-                              //Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchScreen(),),),
+                    child: Center(
+                      child: TextField(
+                        onSubmitted: (value) {
+                          //Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchScreen(),),),
+                        },
+                        decoration: InputDecoration(
+                          hintText: 'Search Products',
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(
+                            color: AppTheme.textSecondary,
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(Icons.search),
+                            color: AppTheme.primaryColor,
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          SearchFilterScreen()));
                             },
-                            decoration: InputDecoration(
-                              hintText: 'Search Products',
-                              border: InputBorder.none,
-                              hintStyle: TextStyle(
-                                color: AppTheme.textSecondary,
-                              ),
-                              prefixIcon: Icon(
-                                Icons.search,
-                                color: AppTheme.textSecondary,
-                              ),
-                              suffixIcon: Icon(
-                                Icons.tune,
-                                color: AppTheme.primaryColor,
-                              ),
-                            ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   ),
                 ),
