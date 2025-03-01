@@ -1,7 +1,7 @@
 import 'package:ecommerce/theme/theme.dart';
 import 'package:flutter/material.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatListScreen extends StatelessWidget {
   final List<Map<String, dynamic>> chatList = [
     {
       'name': 'John Doe',

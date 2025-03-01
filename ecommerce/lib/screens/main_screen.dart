@@ -1,5 +1,5 @@
 import 'package:ecommerce/screens/cart_screen.dart';
-import 'package:ecommerce/screens/chat_screen.dart';
+import 'package:ecommerce/screens/chat_list_screen.dart';
 import 'package:ecommerce/screens/home_screen.dart';
 import 'package:ecommerce/screens/profile_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
@@ -17,7 +17,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final List<Widget> _screens = [
     HomeScreen(),
-    ChatScreen(),
+    ChatListScreen(),
     CartScreen(),
     ProfileScreen(),
   ];
