@@ -1,3 +1,5 @@
+import 'package:ecommerce/screens/categories_screen.dart';
+import 'package:ecommerce/screens/notifications_screen.dart';
 import 'package:ecommerce/screens/product_details_screen.dart';
 import 'package:ecommerce/screens/search_filter_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
@@ -95,7 +97,14 @@ class HomeScreen extends StatelessWidget {
             ),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NotificationsScreen(),
+                    ),
+                  );
+                },
                 icon: Icon(
                   Icons.notifications_outlined,
                   color: Colors.white,
@@ -169,7 +178,12 @@ class HomeScreen extends StatelessWidget {
                           ),
                           TextButton(
                             onPressed: () {
-                              //Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductCategoriesScreen(),),),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CategoriesScreen(),
+                                ),
+                              );
                             },
                             child: Text(
                               "View All",

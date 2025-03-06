@@ -1,3 +1,4 @@
+import 'package:ecommerce/screens/chat_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class ChatListScreen extends StatelessWidget {
       'lastMessage': 'Hey, how are you?',
       'time': '2:30 PM',
       'unreadCount': 2,
-      'avatar': 'assets/images/user.jpg',
+      'avatar': 'assets/images/user.png',
       'isOnline': true,
     },
     {
@@ -16,7 +17,7 @@ class ChatListScreen extends StatelessWidget {
       'lastMessage': 'The package has been delivered',
       'time': '1:45 PM',
       'unreadCount': 0,
-      'avatar': 'assets/images/user.jpg',
+      'avatar': 'assets/images/user.png',
       'isOnline': false,
     },
     {
@@ -24,7 +25,7 @@ class ChatListScreen extends StatelessWidget {
       'lastMessage': 'Provide more details for the order',
       'time': '2:30 PM',
       'unreadCount': 1,
-      'avatar': 'assets/images/user.jpg',
+      'avatar': 'assets/images/user.png',
       'isOnline': true,
     },
     {
@@ -32,7 +33,7 @@ class ChatListScreen extends StatelessWidget {
       'lastMessage': 'Your order has been shipped',
       'time': '9:00 PM',
       'unreadCount': 3,
-      'avatar': 'assets/images/user.jpg',
+      'avatar': 'assets/images/user.png',
       'isOnline': false,
     },
   ];
@@ -145,7 +146,14 @@ class ChatListScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final chat = chatList[index];
                     return InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(),
+                          ),
+                        );
+                      },
                       child: Container(
                         margin:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 10),

@@ -1,3 +1,4 @@
+import 'package:ecommerce/screens/ratings_reviews_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
@@ -425,7 +426,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                               ),
                               TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          RatingsReviewsScreen(),
+                                    ),
+                                  );
+                                },
                                 child: Text(
                                   "View All",
                                 ),

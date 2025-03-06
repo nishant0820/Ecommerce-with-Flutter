@@ -1,3 +1,4 @@
+import 'package:ecommerce/screens/write_review_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -395,7 +396,14 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WriteReviewScreen(),
+            ),
+          );
+        },
         label: Text("Write a Review"),
         icon: Icon(Icons.rate_review_outlined),
         backgroundColor: AppTheme.primaryColor,
