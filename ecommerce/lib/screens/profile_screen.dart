@@ -1,3 +1,6 @@
+import 'package:ecommerce/screens/my_orders_screen.dart';
+import 'package:ecommerce/screens/notifications_screen.dart';
+import 'package:ecommerce/screens/user_details_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -307,21 +310,43 @@ class ProfileScreen extends StatelessWidget {
                                 icon: Icons.person_outline,
                                 title: 'Personal Details',
                                 subtitle: 'Update your personal information',
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => UserDetailsScreen(),
+                                    ),
+                                  );
+                                },
                                 color: AppTheme.primaryColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.lock_outline,
                                 title: 'Change Password',
                                 subtitle: 'Update your password',
-                                onTap: () {},
+                                onTap: () {
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => ChagePasswordScreen(),
+                                  //   ),
+                                  // );
+                                },
                                 color: AppTheme.primaryColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.notifications,
                                 title: 'Notifications',
                                 subtitle: 'Manage your notifications',
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          NotificationsScreen(),
+                                    ),
+                                  );
+                                },
                                 color: AppTheme.primaryColor,
                               ),
                             ],
@@ -334,7 +359,14 @@ class ProfileScreen extends StatelessWidget {
                                 icon: Icons.shopping_bag_outlined,
                                 title: 'My Orders',
                                 subtitle: 'View your order history',
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyOrdersScreen(),
+                                    ),
+                                  );
+                                },
                                 color: AppTheme.secondaryColor,
                               ),
                               _buildMenuItem(
