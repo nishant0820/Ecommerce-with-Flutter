@@ -1,12 +1,34 @@
+import 'dart:convert';
 import 'package:ecommerce/screens/login_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:ecommerce/widgets/custom_text_field.dart';
 import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:ecommerce/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  final emailController = TextEditingController();
+  final nameController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    nameController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +144,7 @@ class SignupScreen extends StatelessWidget {
                         SizedBox(height: 32),
                         CustomTextField(
                           label: "Email",
+                          controller: emailController,
                           prefixIcon: Icons.email_outlined,
                           keyboardType: TextInputType.emailAddress,
                           validator: (value) {
@@ -137,6 +160,7 @@ class SignupScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         CustomTextField(
                           label: "Full Name",
+                          controller: nameController,
                           prefixIcon: Icons.person_outline,
                           keyboardType: TextInputType.text,
                           validator: (value) {
@@ -149,6 +173,7 @@ class SignupScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         CustomTextField(
                           label: "Password",
+                          controller: passwordController,
                           prefixIcon: Icons.lock_outlined,
                           keyboardType: TextInputType.visiblePassword,
                           isPassword: true,
@@ -165,6 +190,7 @@ class SignupScreen extends StatelessWidget {
                         SizedBox(height: 16),
                         CustomTextField(
                           label: "Confitm Password",
+                          controller: confirmPasswordController,
                           prefixIcon: Icons.lock_outlined,
                           keyboardType: TextInputType.visiblePassword,
                           isPassword: true,
@@ -178,8 +204,33 @@ class SignupScreen extends StatelessWidget {
                         SizedBox(height: 24),
                         GradientButton(
                             text: "Create Account",
-                            onPressed: () {
-                              if (_formKey.currentState!.validate()) {}
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                final response = await http.post(
+                                  Uri.parse(
+                                      'http://192.168.29.198:3000/api/signup'), // Replace with your IP
+                                  headers: {'Content-Type': 'application/json'},
+                                  body: jsonEncode({
+                                    'email': emailController.text,
+                                    'name': nameController.text,
+                                    'password': passwordController.text,
+                                  }),
+                                );
+
+                                if (response.statusCode == 200) {
+                                  final data = jsonDecode(response.body);
+                                  print(data['message']);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text(data['message'])),
+                                  );
+                                  // Navigate to Login or Home screen here
+                                } else {
+                                  print('Error: ${response.body}');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Signup failed")),
+                                  );
+                                }
+                              }
                             }),
                         SizedBox(height: 24),
                         Center(
