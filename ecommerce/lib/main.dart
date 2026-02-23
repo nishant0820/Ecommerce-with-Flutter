@@ -25,11 +25,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ecommerce App',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.lightTheme,
-      home: MainScreen(),
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppTheme.isDarkMode,
+      builder: (context, isDarkMode, child) {
+        return MaterialApp(
+          title: 'Ecommerce App',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          home: MainScreen(),
+        );
+      },
     );
   }
 }

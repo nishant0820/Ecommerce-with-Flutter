@@ -61,15 +61,20 @@ class MyOrdersScreen extends StatelessWidget {
     required double total,
     required VoidCallback onTap,
     required BuildContext context,
+    required Color cardBackgroundColor,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color shadowColor,
+    required Color dividerColor,
   }) {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBackgroundColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: shadowColor,
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -91,7 +96,7 @@ class MyOrdersScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: titleColor,
                     ),
                   ),
                   Container(
@@ -116,17 +121,17 @@ class MyOrdersScreen extends StatelessWidget {
                 "Ordered on $date",
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppTheme.textSecondary,
+                  color: subtitleColor,
                 ),
               ),
               SizedBox(height: 12),
-              Divider(),
+              Divider(color: dividerColor),
               SizedBox(height: 12),
               Text(
                 '${items.length} ${items.length == 1 ? 'item' : 'items'}:',
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppTheme.textSecondary,
+                  color: subtitleColor,
                 ),
               ),
               SizedBox(height: 8),
@@ -134,7 +139,7 @@ class MyOrdersScreen extends StatelessWidget {
                 items.join(", "),
                 style: TextStyle(
                   fontSize: 14,
-                  color: AppTheme.textPrimary,
+                  color: titleColor,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -148,7 +153,7 @@ class MyOrdersScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: titleColor,
                     ),
                   ),
                   Text(
@@ -192,14 +197,26 @@ class MyOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final searchBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final dividerColor =
+        isDark ? Colors.white24 : Colors.black.withOpacity(0.1);
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             pinned: true,
             expandedHeight: 120,
             backgroundColor: Colors.transparent,
+            foregroundColor: Colors.white,
             flexibleSpace: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -228,11 +245,11 @@ class MyOrdersScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: searchBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -245,12 +262,12 @@ class MyOrdersScreen extends StatelessWidget {
                             decoration: InputDecoration(
                               hintText: "Search orders",
                               hintStyle: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: subtitleColor,
                               ),
                               border: InputBorder.none,
                               icon: Icon(
                                 Icons.search,
-                                color: AppTheme.textSecondary,
+                                color: subtitleColor,
                               ),
                               suffixIcon: Container(
                                 padding: EdgeInsets.all(8),
@@ -284,6 +301,11 @@ class MyOrdersScreen extends StatelessWidget {
                                 builder: (context) => OrderDetailsScreen()));
                       },
                       context: context,
+                      cardBackgroundColor: cardBackgroundColor,
+                      titleColor: titleColor,
+                      subtitleColor: subtitleColor,
+                      shadowColor: shadowColor,
+                      dividerColor: dividerColor,
                     ),
                   ),
                 ],

@@ -1,180 +1,317 @@
 import 'package:ecommerce/theme/theme.dart';
-import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class ChooseLanguageScreen extends StatefulWidget {
-  const ChooseLanguageScreen({super.key});
+	const ChooseLanguageScreen({
+		super.key,
+		this.initialLanguage = 'English',
+	});
 
-  @override
-  State<ChooseLanguageScreen> createState() => _ChooseLanguageScreenState();
+	final String initialLanguage;
+
+	static const List<String> allLanguages = [
+		'Abkhaz',
+		'Afar',
+		'Afrikaans',
+		'Akan',
+		'Albanian',
+		'Amharic',
+		'Arabic',
+		'Aragonese',
+		'Armenian',
+		'Assamese',
+		'Avaric',
+		'Avestan',
+		'Aymara',
+		'Azerbaijani',
+		'Bambara',
+		'Bashkir',
+		'Basque',
+		'Belarusian',
+		'Bengali',
+		'Bihari',
+		'Bislama',
+		'Bosnian',
+		'Breton',
+		'Bulgarian',
+		'Burmese',
+		'Catalan',
+		'Chamorro',
+		'Chechen',
+		'Chichewa',
+		'Chinese',
+		'Chuvash',
+		'Cornish',
+		'Corsican',
+		'Cree',
+		'Croatian',
+		'Czech',
+		'Danish',
+		'Divehi',
+		'Dutch',
+		'Dzongkha',
+		'English',
+		'Esperanto',
+		'Estonian',
+		'Ewe',
+		'Faroese',
+		'Fijian',
+		'Finnish',
+		'French',
+		'Fulah',
+		'Galician',
+		'Georgian',
+		'German',
+		'Greek',
+		'Guarani',
+		'Gujarati',
+		'Haitian Creole',
+		'Hausa',
+		'Hebrew',
+		'Herero',
+		'Hindi',
+		'Hiri Motu',
+		'Hungarian',
+		'Icelandic',
+		'Ido',
+		'Igbo',
+		'Indonesian',
+		'Interlingua',
+		'Interlingue',
+		'Inuktitut',
+		'Inupiaq',
+		'Irish',
+		'Italian',
+		'Japanese',
+		'Javanese',
+		'Kalaallisut',
+		'Kannada',
+		'Kanuri',
+		'Kashmiri',
+		'Kazakh',
+		'Khmer',
+		'Kikuyu',
+		'Kinyarwanda',
+		'Kirghiz',
+		'Komi',
+		'Kongo',
+		'Korean',
+		'Kurdish',
+		'Kwanyama',
+		'Lao',
+		'Latin',
+		'Latvian',
+		'Limburgish',
+		'Lingala',
+		'Lithuanian',
+		'Luba-Katanga',
+		'Luxembourgish',
+		'Macedonian',
+		'Malagasy',
+		'Malay',
+		'Malayalam',
+		'Maltese',
+		'Manx',
+		'Maori',
+		'Marathi',
+		'Marshallese',
+		'Mongolian',
+		'Nauru',
+		'Navajo',
+		'Ndonga',
+		'Nepali',
+		'North Ndebele',
+		'Northern Sami',
+		'Norwegian',
+		'Norwegian Bokmal',
+		'Norwegian Nynorsk',
+		'Occitan',
+		'Ojibwe',
+		'Oriya',
+		'Oromo',
+		'Ossetian',
+		'Pali',
+		'Pashto',
+		'Persian',
+		'Polish',
+		'Portuguese',
+		'Punjabi',
+		'Quechua',
+		'Romanian',
+		'Romansh',
+		'Russian',
+		'Samoan',
+		'Sango',
+		'Sanskrit',
+		'Sardinian',
+		'Scottish Gaelic',
+		'Serbian',
+		'Shona',
+		'Sindhi',
+		'Sinhala',
+		'Slovak',
+		'Slovenian',
+		'Somali',
+		'South Ndebele',
+		'Southern Sotho',
+		'Spanish',
+		'Sundanese',
+		'Swahili',
+		'Swati',
+		'Swedish',
+		'Tagalog',
+		'Tahitian',
+		'Tajik',
+		'Tamil',
+		'Tatar',
+		'Telugu',
+		'Thai',
+		'Tibetan',
+		'Tigrinya',
+		'Tonga',
+		'Tsonga',
+		'Tswana',
+		'Turkish',
+		'Turkmen',
+		'Twi',
+		'Uighur',
+		'Ukrainian',
+		'Urdu',
+		'Uzbek',
+		'Venda',
+		'Vietnamese',
+		'Volapuk',
+		'Walloon',
+		'Welsh',
+		'Western Frisian',
+		'Wolof',
+		'Xhosa',
+		'Yiddish',
+		'Yoruba',
+		'Zhuang',
+		'Zulu',
+	];
+
+	@override
+	State<ChooseLanguageScreen> createState() => _ChooseLanguageScreenState();
 }
 
 class _ChooseLanguageScreenState extends State<ChooseLanguageScreen> {
-  String? _selectedLanguage;
+	late String _selectedLanguage;
 
-  final List<Map<String, String>> _languages = [
-    {
-      'code': 'en',
-      'name': 'English',
-      'nativeName': 'English',
-    },
-    {
-      'code': 'fr',
-      'name': 'French',
-      'nativeName': 'Francais',
-    },
-    {
-      'code': 'de',
-      'name': 'German',
-      'nativeName': 'Deutsch',
-    },
-    {
-      'code': 'it',
-      'name': 'Italian',
-      'nativeName': 'Italiano',
-    },
-  ];
+	@override
+	void initState() {
+		super.initState();
+		_selectedLanguage = widget.initialLanguage;
+	}
 
-  void _handleLanguageSelection() {
-    if (_selectedLanguage != null) {
-      //Navigator.pop(context);
-    }
-  }
+	@override
+	Widget build(BuildContext context) {
+		final isDark = Theme.of(context).brightness == Brightness.dark;
+		final cardColor = isDark ? const Color(0xFF1E293B) : Colors.white;
+		final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+		final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+		final dividerColor = isDark ? Colors.white12 : Colors.black12;
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        //backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Icon(
-            Icons.arrow_back,
-            color: AppTheme.textPrimary,
-          ),
-        ),
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.all(24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Choose Language",
-                      style: Theme.of(context).textTheme.displayLarge,
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      "Select Your Preferred Language",
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                    SizedBox(height: 32),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: _languages.length,
-                      itemBuilder: (context, index) {
-                        final language = _languages[index];
-                        final isSelected =
-                            language['code'] == _selectedLanguage;
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 12),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: isSelected
-                                  ? AppTheme.primaryColor
-                                  : AppTheme.textSecondary.withOpacity(0.2),
-                              width: isSelected ? 2 : 1,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                _selectedLanguage = language['code'];
-                              });
-                            },
-                            borderRadius: BorderRadius.circular(12),
-                            child: Padding(
-                              padding: EdgeInsets.all(16),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          language['name']!,
-                                          style: TextStyle(
-                                            color: AppTheme.textPrimary,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(
-                                          language['nativeName']!,
-                                          style: TextStyle(
-                                            color: AppTheme.textSecondary,
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    width: 24,
-                                    height: 24,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: isSelected
-                                            ? AppTheme.primaryColor
-                                            : AppTheme.textSecondary
-                                                .withOpacity(0.2),
-                                        width: 2,
-                                      ),
-                                    ),
-                                    child: isSelected
-                                        ? Container(
-                                            margin: EdgeInsets.all(2),
-                                            decoration: BoxDecoration(
-                                              color: AppTheme.primaryColor,
-                                              shape: BoxShape.circle,
-                                            ),
-                                          )
-                                        : null,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                    SizedBox(height: 32),
-                    Padding(
-                      padding: EdgeInsets.all(24),
-                      child: GradientButton(
-                        text: "Continue",
-                        onPressed: _handleLanguageSelection,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+		return Scaffold(
+			backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+			appBar: AppBar(
+				title: const Text('Choose Language'),
+				centerTitle: true,
+				elevation: 0,
+			),
+			body: Padding(
+				padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+				child: Column(
+					children: [
+						Container(
+							padding: const EdgeInsets.all(14),
+							decoration: BoxDecoration(
+								color: cardColor,
+								borderRadius: BorderRadius.circular(14),
+							),
+							child: Row(
+								children: [
+									Icon(Icons.language, color: AppTheme.primaryColor),
+									const SizedBox(width: 10),
+									Expanded(
+										child: Text(
+											'Default language is English',
+											style: TextStyle(
+												color: subtitleColor,
+												fontSize: 14,
+											),
+										),
+									),
+								],
+							),
+						),
+						const SizedBox(height: 12),
+						Expanded(
+							child: Container(
+								decoration: BoxDecoration(
+									color: cardColor,
+									borderRadius: BorderRadius.circular(14),
+								),
+								child: ListView.separated(
+									itemCount: ChooseLanguageScreen.allLanguages.length,
+									separatorBuilder: (_, __) => Divider(
+										height: 1,
+										color: dividerColor,
+									),
+									itemBuilder: (context, index) {
+										final language = ChooseLanguageScreen.allLanguages[index];
+										return RadioListTile<String>(
+											value: language,
+											groupValue: _selectedLanguage,
+											activeColor: AppTheme.primaryColor,
+											title: Text(
+												language,
+												style: TextStyle(
+													color: titleColor,
+													fontWeight: FontWeight.w500,
+												),
+											),
+											onChanged: (value) {
+												if (value == null) {
+													return;
+												}
+												setState(() {
+													_selectedLanguage = value;
+												});
+											},
+										);
+									},
+								),
+							),
+						),
+						const SizedBox(height: 12),
+						SizedBox(
+							width: double.infinity,
+							child: ElevatedButton(
+								onPressed: () {
+									Navigator.pop(context, _selectedLanguage);
+								},
+								style: ElevatedButton.styleFrom(
+									backgroundColor: AppTheme.primaryColor,
+									foregroundColor: Colors.white,
+									padding: const EdgeInsets.symmetric(vertical: 14),
+									shape: RoundedRectangleBorder(
+										borderRadius: BorderRadius.circular(12),
+									),
+								),
+								child: const Text(
+									'Save Language',
+									style: TextStyle(
+										fontWeight: FontWeight.w600,
+										fontSize: 15,
+									),
+								),
+							),
+						),
+					],
+				),
+			),
+		);
+	}
 }

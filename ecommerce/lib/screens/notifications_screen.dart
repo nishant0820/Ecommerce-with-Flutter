@@ -52,8 +52,18 @@ class NotificationsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final readCardBackgroundColor = isDark ? Color(0xFF334155) : Colors.white54;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final timeColor = isDark ? Colors.white60 : AppTheme.primaryDark;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.1);
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -127,11 +137,13 @@ class NotificationsScreen extends StatelessWidget {
                 return Container(
                   margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: notification['read'] ? Colors.white54 : Colors.white,
+                    color: notification['read']
+                        ? readCardBackgroundColor
+                        : cardBackgroundColor,
                     borderRadius: BorderRadius.circular(12),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
+                        color: shadowColor,
                         blurRadius: 20,
                         offset: Offset(0, 5),
                       ),
@@ -174,7 +186,7 @@ class NotificationsScreen extends StatelessWidget {
                         fontWeight: notification['read']
                             ? FontWeight.normal
                             : FontWeight.bold,
-                        color: AppTheme.textPrimary,
+                        color: titleColor,
                       ),
                     ),
                     subtitle: Column(
@@ -184,7 +196,7 @@ class NotificationsScreen extends StatelessWidget {
                         Text(
                           notification['message'] as String,
                           style: TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: subtitleColor,
                             fontSize: 14,
                           ),
                         ),
@@ -192,7 +204,7 @@ class NotificationsScreen extends StatelessWidget {
                         Text(
                           notification['time'] as String,
                           style: TextStyle(
-                            color: AppTheme.primaryDark,
+                            color: timeColor,
                             fontSize: 12,
                           ),
                         ),
@@ -207,28 +219,48 @@ class NotificationsScreen extends StatelessWidget {
                               top: Radius.circular(20),
                             ),
                           ),
+                          backgroundColor:
+                              isDark ? Color(0xFF1E293B) : Colors.white,
                           builder: (context) => Container(
                             padding: EdgeInsets.all(16),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 ListTile(
-                                  leading: Icon(Icons.mark_email_read_outlined),
-                                  title: Text("Mark as read"),
+                                  leading: Icon(
+                                    Icons.mark_email_read_outlined,
+                                    color: subtitleColor,
+                                  ),
+                                  title: Text(
+                                    "Mark as read",
+                                    style: TextStyle(color: titleColor),
+                                  ),
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.delete_outlined),
-                                  title: Text("Delete Notification"),
+                                  leading: Icon(
+                                    Icons.delete_outlined,
+                                    color: subtitleColor,
+                                  ),
+                                  title: Text(
+                                    "Delete Notification",
+                                    style: TextStyle(color: titleColor),
+                                  ),
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
                                 ),
                                 ListTile(
-                                  leading: Icon(Icons.block_outlined),
-                                  title: Text("Turn off notifications"),
+                                  leading: Icon(
+                                    Icons.block_outlined,
+                                    color: subtitleColor,
+                                  ),
+                                  title: Text(
+                                    "Turn off notifications",
+                                    style: TextStyle(color: titleColor),
+                                  ),
                                   onTap: () {
                                     Navigator.pop(context);
                                   },
@@ -240,7 +272,7 @@ class NotificationsScreen extends StatelessWidget {
                       },
                       icon: Icon(
                         Icons.more_horiz,
-                        color: AppTheme.textSecondary,
+                        color: subtitleColor,
                       ),
                     ),
                   ),

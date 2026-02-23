@@ -12,6 +12,10 @@ class OrderTrackingScreen extends StatelessWidget {
     required String date,
     required String description,
     required bool isCompleted,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color inactiveColor,
+    required Color inactiveDotColor,
     bool isFirst = false,
     bool isLast = false,
   }) {
@@ -28,19 +32,19 @@ class OrderTrackingScreen extends StatelessWidget {
                     height: 30,
                     color: isCompleted
                         ? AppTheme.primaryColor
-                        : AppTheme.textSecondary.withOpacity(0.2),
+                        : inactiveColor.withOpacity(0.2),
                   ),
                 Container(
                   width: 24,
                   height: 24,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: isCompleted ? AppTheme.primaryColor : Colors.white,
+                    color:
+                        isCompleted ? AppTheme.primaryColor : inactiveDotColor,
                     border: Border.all(
                       width: 2,
-                      color: isCompleted
-                          ? AppTheme.primaryColor
-                          : AppTheme.textSecondary,
+                      color:
+                          isCompleted ? AppTheme.primaryColor : inactiveColor,
                     ),
                   ),
                   child: isCompleted
@@ -57,7 +61,7 @@ class OrderTrackingScreen extends StatelessWidget {
                     height: 50,
                     color: isCompleted
                         ? AppTheme.primaryColor
-                        : AppTheme.textSecondary.withOpacity(0.2),
+                        : inactiveColor.withOpacity(0.2),
                   ),
                 if (!isLast)
                   Container(
@@ -65,7 +69,7 @@ class OrderTrackingScreen extends StatelessWidget {
                     height: 30,
                     color: isCompleted
                         ? AppTheme.primaryColor
-                        : AppTheme.textSecondary.withOpacity(0.2),
+                        : inactiveColor.withOpacity(0.2),
                   ),
               ],
             ),
@@ -81,9 +85,7 @@ class OrderTrackingScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: isCompleted
-                          ? AppTheme.primaryColor
-                          : AppTheme.textPrimary,
+                      color: isCompleted ? AppTheme.primaryColor : titleColor,
                     ),
                   ),
                   SizedBox(height: 4),
@@ -91,7 +93,7 @@ class OrderTrackingScreen extends StatelessWidget {
                     date,
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppTheme.textSecondary,
+                      color: subtitleColor,
                     ),
                   ),
                   SizedBox(height: 4),
@@ -99,7 +101,7 @@ class OrderTrackingScreen extends StatelessWidget {
                     description,
                     style: TextStyle(
                       fontSize: 14,
-                      color: AppTheme.textPrimary,
+                      color: titleColor,
                     ),
                   ),
                 ],
@@ -113,8 +115,20 @@ class OrderTrackingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final dividerColor =
+        isDark ? Colors.white24 : Colors.black.withOpacity(0.1);
+    final inactiveDotColor = isDark ? Color(0xFF0F172A) : Colors.white;
+    final bottomSheetColor = isDark ? Color(0xFF0F172A) : Colors.white;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -150,11 +164,11 @@ class OrderTrackingScreen extends StatelessWidget {
                   margin: EdgeInsets.all(16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -166,7 +180,7 @@ class OrderTrackingScreen extends StatelessWidget {
                         "Estimated Delivery",
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppTheme.textSecondary,
+                          color: subtitleColor,
                         ),
                       ),
                       SizedBox(height: 8),
@@ -175,7 +189,7 @@ class OrderTrackingScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 4),
@@ -201,11 +215,11 @@ class OrderTrackingScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -218,6 +232,10 @@ class OrderTrackingScreen extends StatelessWidget {
                         date: "Feb 10 2025 - 11:30 AM",
                         description: "Your order has been confirmed",
                         isCompleted: true,
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                        inactiveColor: subtitleColor,
+                        inactiveDotColor: inactiveDotColor,
                         isFirst: true,
                       ),
                       _buildTimelineItem(
@@ -226,6 +244,10 @@ class OrderTrackingScreen extends StatelessWidget {
                         description:
                             "Your order has been prepared for shipping",
                         isCompleted: true,
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                        inactiveColor: subtitleColor,
+                        inactiveDotColor: inactiveDotColor,
                         isFirst: true,
                       ),
                       _buildTimelineItem(
@@ -233,18 +255,30 @@ class OrderTrackingScreen extends StatelessWidget {
                         date: "Feb 12 2025 - 11:30 AM",
                         description: "Your order is on the way",
                         isCompleted: true,
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                        inactiveColor: subtitleColor,
+                        inactiveDotColor: inactiveDotColor,
                       ),
                       _buildTimelineItem(
                         status: "Out for Delivery",
                         date: "Expected: Feb 13 2025",
                         description: "Your order will be delivered today",
                         isCompleted: false,
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                        inactiveColor: subtitleColor,
+                        inactiveDotColor: inactiveDotColor,
                       ),
                       _buildTimelineItem(
                         status: "Delivered",
                         date: "Feb 14 2025",
                         description: "Your order has been delivered",
                         isCompleted: false,
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                        inactiveColor: subtitleColor,
+                        inactiveDotColor: inactiveDotColor,
                         isLast: true,
                       ),
                     ],
@@ -255,11 +289,11 @@ class OrderTrackingScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -273,7 +307,7 @@ class OrderTrackingScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
@@ -298,7 +332,7 @@ class OrderTrackingScreen extends StatelessWidget {
                                   "Tracking Number",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                                 SizedBox(height: 4),
@@ -307,7 +341,7 @@ class OrderTrackingScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.bold,
-                                    color: AppTheme.textPrimary,
+                                    color: titleColor,
                                   ),
                                 ),
                               ],
@@ -323,7 +357,7 @@ class OrderTrackingScreen extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 16),
-                      Divider(),
+                      Divider(color: dividerColor),
                       SizedBox(height: 16),
                       Row(
                         children: [
@@ -346,7 +380,7 @@ class OrderTrackingScreen extends StatelessWidget {
                                   "Delivery Address",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                                 SizedBox(height: 4),
@@ -354,7 +388,7 @@ class OrderTrackingScreen extends StatelessWidget {
                                   "F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    color: AppTheme.textPrimary,
+                                    color: titleColor,
                                   ),
                                 ),
                               ],
@@ -381,10 +415,10 @@ class OrderTrackingScreen extends StatelessWidget {
       bottomSheet: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: bottomSheetColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, -5),
             ),

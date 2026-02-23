@@ -24,8 +24,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       'icon': Icons.paypal,
     },
     {
-      'title': 'Apple Pay',
-      'icon': Icons.apple,
+      'title': 'Paytm',
+      'icon': Icons.account_balance_wallet,
     },
     {
       'title': 'Google Pay',
@@ -33,6 +33,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     },
   ];
   Widget _buildStep(int number, String title, bool isActive) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final inactiveColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final inactiveBg = isDark ? Color(0xFF1E293B) : Colors.white;
+
     return Expanded(
       child: Column(
         children: [
@@ -41,10 +45,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
             height: 30,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isActive ? AppTheme.primaryColor : Colors.white,
+              color: isActive ? AppTheme.primaryColor : inactiveBg,
               border: Border.all(
-                color:
-                    isActive ? AppTheme.primaryColor : AppTheme.textSecondary,
+                color: isActive ? AppTheme.primaryColor : inactiveColor,
                 width: 2,
               ),
             ),
@@ -52,7 +55,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               child: Text(
                 number.toString(),
                 style: TextStyle(
-                  color: isActive ? Colors.white : AppTheme.textSecondary,
+                  color: isActive ? Colors.white : inactiveColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -62,7 +65,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           Text(
             title,
             style: TextStyle(
-              color: isActive ? AppTheme.primaryColor : AppTheme.textSecondary,
+              color: isActive ? AppTheme.primaryColor : inactiveColor,
               fontSize: 12,
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
@@ -73,16 +76,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Widget _buildStepConnector(bool isActive) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final inactiveColor =
+        isDark ? Colors.white24 : AppTheme.textSecondary.withOpacity(0.2);
     return Container(
       width: 40,
       height: 2,
-      color: isActive
-          ? AppTheme.primaryColor
-          : AppTheme.textSecondary.withOpacity(0.2),
+      color: isActive ? AppTheme.primaryColor : inactiveColor,
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, {bool isTotal = false}) {
+  Widget _buildSummaryRow(
+    String label,
+    String value, {
+    required Color titleColor,
+    required Color subtitleColor,
+    bool isTotal = false,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -93,7 +103,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             style: TextStyle(
               fontSize: isTotal ? 18 : 14,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-              color: isTotal ? AppTheme.textPrimary : AppTheme.textSecondary,
+              color: isTotal ? titleColor : subtitleColor,
             ),
           ),
           Text(
@@ -101,7 +111,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             style: TextStyle(
               fontSize: isTotal ? 18 : 14,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-              color: isTotal ? AppTheme.textPrimary : AppTheme.textSecondary,
+              color: isTotal ? titleColor : subtitleColor,
             ),
           ),
         ],
@@ -111,8 +121,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final dividerColor =
+        isDark ? Colors.white24 : Colors.black.withOpacity(0.1);
+    final bottomSheetColor = isDark ? Color(0xFF0F172A) : Colors.white;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -165,27 +186,35 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
                       ...List.generate(
                           paymentMethods.length,
                           (index) => _buildPaymentMethodCard(
-                              index, paymentMethods[index])),
+                                index,
+                                paymentMethods[index],
+                                cardBackgroundColor: cardBackgroundColor,
+                                titleColor: titleColor,
+                                shadowColor: shadowColor,
+                              )),
                     ],
                   ),
                 ),
-                _buildSavedCards(),
+                _buildSavedCards(
+                  titleColor: titleColor,
+                  subtitleColor: subtitleColor,
+                ),
                 Container(
                   margin: EdgeInsets.all(16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -199,17 +228,34 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
-                      _buildSummaryRow("Subtotal", "Rs. 1797.00"),
-                      _buildSummaryRow("Shipping", "Rs. 100.00"),
-                      _buildSummaryRow("Tax", "Rs. 89.00"),
-                      Divider(height: 24),
+                      _buildSummaryRow(
+                        "Subtotal",
+                        "Rs. 1797.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                      ),
+                      _buildSummaryRow(
+                        "Shipping",
+                        "Rs. 100.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                      ),
+                      _buildSummaryRow(
+                        "Tax",
+                        "Rs. 89.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                      ),
+                      Divider(height: 24, color: dividerColor),
                       _buildSummaryRow(
                         "Total",
                         "Rs. 1986.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
                         isTotal: true,
                       ),
                     ],
@@ -224,10 +270,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
       bottomSheet: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: bottomSheetColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, -5),
             ),
@@ -250,7 +296,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildPaymentMethodCard(int index, Map<String, dynamic> method) {
+  Widget _buildPaymentMethodCard(
+    int index,
+    Map<String, dynamic> method, {
+    required Color cardBackgroundColor,
+    required Color titleColor,
+    required Color shadowColor,
+  }) {
     final isSelected = _selectedPaymentMethod == index;
     return GestureDetector(
       onTap: () {
@@ -264,7 +316,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         margin: EdgeInsets.only(bottom: 16),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardBackgroundColor,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? AppTheme.primaryColor : Colors.transparent,
@@ -272,7 +324,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, 5),
             ),
@@ -307,7 +359,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textPrimary,
+                color: titleColor,
               ),
             ),
           ],
@@ -316,7 +368,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildSavedCards() {
+  Widget _buildSavedCards({
+    required Color titleColor,
+    required Color subtitleColor,
+  }) {
     if (_selectedPaymentMethod != 0) return SizedBox.shrink();
 
     return Padding(
@@ -332,7 +387,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary,
+                  color: titleColor,
                 ),
               ),
               TextButton.icon(

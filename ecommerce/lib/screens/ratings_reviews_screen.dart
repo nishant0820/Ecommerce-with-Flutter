@@ -70,7 +70,12 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
     );
   }
 
-  Widget _buildReactionButton(IconData icon, String count) {
+  Widget _buildReactionButton(
+    IconData icon,
+    String count, {
+    required Color borderColor,
+    required Color iconTextColor,
+  }) {
     return InkWell(
       onTap: () {},
       borderRadius: BorderRadius.circular(20),
@@ -78,7 +83,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
           border: Border.all(
-            color: AppTheme.textSecondary.withOpacity(0.2),
+            color: borderColor,
           ),
           borderRadius: BorderRadius.circular(20),
         ),
@@ -87,13 +92,13 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
             Icon(
               icon,
               size: 16,
-              color: AppTheme.textSecondary,
+              color: iconTextColor,
             ),
             SizedBox(width: 4),
             Text(
               count,
               style: TextStyle(
-                color: AppTheme.textSecondary,
+                color: iconTextColor,
               ),
             ),
           ],
@@ -104,8 +109,18 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final borderColor =
+        isDark ? Colors.white24 : AppTheme.textSecondary.withOpacity(0.2);
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -140,11 +155,11 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                   margin: EdgeInsets.all(16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -162,7 +177,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                                 Text(
                                   '4.8',
                                   style: TextStyle(
-                                    color: AppTheme.textPrimary,
+                                    color: titleColor,
                                     fontSize: 48,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -186,7 +201,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                                 Text(
                                   "Based on (245) Reviews",
                                   style: TextStyle(
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                               ],
@@ -219,9 +234,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                           label: Text(
                             filter,
                             style: TextStyle(
-                              color: isSelected
-                                  ? Colors.white
-                                  : AppTheme.textPrimary,
+                              color: isSelected ? Colors.white : titleColor,
                               fontWeight: isSelected
                                   ? FontWeight.bold
                                   : FontWeight.normal,
@@ -252,11 +265,11 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                     margin: EdgeInsets.only(bottom: 16),
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -286,7 +299,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                                   Text(
                                     "John Doe",
                                     style: TextStyle(
-                                      color: AppTheme.textPrimary,
+                                      color: titleColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -308,7 +321,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                                 Text(
                                   '2 days ago',
                                   style: TextStyle(
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                                 Text(
@@ -326,7 +339,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                         Text(
                           "Perfect fit and great quality",
                           style: TextStyle(
-                            color: AppTheme.textPrimary,
+                            color: titleColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
@@ -335,7 +348,7 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                         Text(
                           "The t-shirt is exactly what I was looking for",
                           style: TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: subtitleColor,
                             height: 1.5,
                           ),
                         ),
@@ -367,11 +380,15 @@ class _RatingsReviewsScreenState extends State<RatingsReviewsScreen> {
                             _buildReactionButton(
                               Icons.thumb_up_alt_outlined,
                               "24",
+                              borderColor: borderColor,
+                              iconTextColor: subtitleColor,
                             ),
                             SizedBox(width: 16),
                             _buildReactionButton(
                               Icons.thumb_down_outlined,
                               '2',
+                              borderColor: borderColor,
+                              iconTextColor: subtitleColor,
                             ),
                             Spacer(),
                             TextButton.icon(

@@ -4,7 +4,16 @@ import 'package:ecommerce/widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatelessWidget {
-  Widget _buildCartItem(int index) {
+  Widget _buildCartItem(
+    int index, {
+    required Color cardBackgroundColor,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color shadowColor,
+    required Color qtyBackgroundColor,
+    required Color qtyBorderColor,
+    required Color qtyTextColor,
+  }) {
     final images = [
       'assets/images/black t-shirt.png',
       'assets/images/red t-shirt.png',
@@ -14,11 +23,11 @@ class CartScreen extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16),
       padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBackgroundColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: shadowColor,
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -57,7 +66,7 @@ class CartScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                     ),
@@ -72,7 +81,7 @@ class CartScreen extends StatelessWidget {
                   "Size: M | Color: Blue",
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppTheme.textSecondary,
+                    color: subtitleColor,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -80,7 +89,7 @@ class CartScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "\Rs. 599.00",
+                      "Rs. 599.00",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -89,10 +98,10 @@ class CartScreen extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: qtyBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: AppTheme.textSecondary.withOpacity(0.2),
+                          color: qtyBorderColor,
                         ),
                       ),
                       child: Row(
@@ -107,6 +116,7 @@ class CartScreen extends StatelessWidget {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
+                                  color: qtyTextColor,
                                 ),
                               ),
                             ),
@@ -147,7 +157,13 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSummaryRow(String label, String value, {bool isTotal = false}) {
+  Widget _buildSummaryRow(
+    String label,
+    String value, {
+    required Color titleColor,
+    required Color subtitleColor,
+    bool isTotal = false,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -158,7 +174,7 @@ class CartScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: isTotal ? 18 : 14,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-              color: isTotal ? AppTheme.textPrimary : AppTheme.textSecondary,
+              color: isTotal ? titleColor : subtitleColor,
             ),
           ),
           Text(
@@ -166,7 +182,7 @@ class CartScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: isTotal ? 18 : 14,
               fontWeight: isTotal ? FontWeight.bold : FontWeight.normal,
-              color: isTotal ? AppTheme.primaryColor : AppTheme.textPrimary,
+              color: isTotal ? AppTheme.primaryColor : titleColor,
             ),
           ),
         ],
@@ -176,8 +192,22 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final qtyBackgroundColor = isDark ? Color(0xFF0F172A) : Colors.white;
+    final qtyBorderColor =
+        isDark ? Colors.white24 : AppTheme.textSecondary.withOpacity(0.2);
+    final qtyTextColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final promoBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final bottomSheetColor = isDark ? Color(0xFF0F172A) : Colors.white;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -221,7 +251,16 @@ class CartScreen extends StatelessWidget {
                   child: Column(
                     children: List.generate(
                       3,
-                      (index) => _buildCartItem(index),
+                      (index) => _buildCartItem(
+                        index,
+                        cardBackgroundColor: cardBackgroundColor,
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                        shadowColor: shadowColor,
+                        qtyBackgroundColor: qtyBackgroundColor,
+                        qtyBorderColor: qtyBorderColor,
+                        qtyTextColor: qtyTextColor,
+                      ),
                     ),
                   ),
                 ),
@@ -229,11 +268,11 @@ class CartScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 26),
                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: promoBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -252,7 +291,7 @@ class CartScreen extends StatelessWidget {
                             hintText: "Enter Promo Code",
                             border: InputBorder.none,
                             hintStyle: TextStyle(
-                              color: AppTheme.textSecondary,
+                              color: subtitleColor,
                             ),
                           ),
                         ),
@@ -268,11 +307,11 @@ class CartScreen extends StatelessWidget {
                   margin: EdgeInsets.all(16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -286,17 +325,34 @@ class CartScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
-                      _buildSummaryRow("Subtotal", "Rs. 1797.00"),
-                      _buildSummaryRow("Shipping", "Rs. 100.00"),
-                      _buildSummaryRow("Tax", "Rs. 89.00"),
-                      Divider(height: 24),
+                      _buildSummaryRow(
+                        "Subtotal",
+                        "Rs. 1797.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                      ),
+                      _buildSummaryRow(
+                        "Shipping",
+                        "Rs. 100.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                      ),
+                      _buildSummaryRow(
+                        "Tax",
+                        "Rs. 89.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
+                      ),
+                      Divider(height: 24, color: qtyBorderColor),
                       _buildSummaryRow(
                         "Total",
                         "Rs. 1986.00",
+                        titleColor: titleColor,
+                        subtitleColor: subtitleColor,
                         isTotal: true,
                       ),
                     ],
@@ -311,10 +367,10 @@ class CartScreen extends StatelessWidget {
       bottomSheet: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: bottomSheetColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, -5),
             ),

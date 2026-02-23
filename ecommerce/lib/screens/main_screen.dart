@@ -1,5 +1,4 @@
 import 'package:ecommerce/screens/cart_screen.dart';
-import 'package:ecommerce/screens/chat_list_screen.dart';
 import 'package:ecommerce/screens/home_screen.dart';
 import 'package:ecommerce/screens/profile_screen.dart';
 import 'package:ecommerce/screens/wishlist_screen.dart';
@@ -14,25 +13,43 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  static const int _homeIndex = 0;
+  static const int _wishlistIndex = 1;
+  static const int _cartIndex = 2;
+  static const int _profileIndex = 3;
+
   int _currentIndex = 0;
 
-  final List<Widget> _screens = [
-    HomeScreen(),
-    WishlistScreen(),
-    ChatListScreen(),
-    CartScreen(),
-    ProfileScreen(),
-  ];
+  Widget _screenForIndex(int index) {
+    switch (index) {
+      case _homeIndex:
+        return HomeScreen();
+      case _wishlistIndex:
+        return WishlistScreen();
+      case _cartIndex:
+        return CartScreen();
+      case _profileIndex:
+        return ProfileScreen();
+      default:
+        return HomeScreen();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final navBackgroundColor = isDark ? const Color(0xFF1E293B) : Colors.white;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.35) : Colors.black.withOpacity(0.1);
+
     return Scaffold(
-      body: _screens[_currentIndex],
+      body: _screenForIndex(_currentIndex),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: navBackgroundColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: shadowColor,
               blurRadius: 20,
               offset: Offset(0, -5),
             ),
@@ -44,19 +61,23 @@ class _MainScreenState extends State<MainScreen> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: navBackgroundColor,
                 borderRadius: BorderRadius.circular(20),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildNavItem(0, Icons.home_outlined, Icons.home, "Home"),
                   _buildNavItem(
-                      1, Icons.bookmarks_outlined, Icons.bookmarks, "Wishlist"),
-                  _buildNavItem(2, Icons.chat_outlined, Icons.chat, "Chat"),
+                      _homeIndex, Icons.home_outlined, Icons.home, "Home"),
+                  _buildNavItem(
+                    _wishlistIndex,
+                    Icons.bookmarks_outlined,
+                    Icons.bookmarks,
+                    "Wishlist",
+                  ),
                   _buildCartNavItem(),
                   _buildNavItem(
-                      4, Icons.person_outline, Icons.person, "Profile"),
+                      _profileIndex, Icons.person_outline, Icons.person, "Profile"),
                 ],
               ),
             ),
@@ -69,6 +90,8 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildNavItem(
       int index, IconData outlinedIcon, IconData filledIcon, String label) {
     bool isSelected = _currentIndex == index;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final unselectedColor = isDark ? Colors.white70 : AppTheme.textSecondary;
     return GestureDetector(
       onTap: () => setState(() => _currentIndex = index),
       child: Container(
@@ -88,14 +111,14 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             Icon(
               isSelected ? filledIcon : outlinedIcon,
-              color: isSelected ? Colors.white : AppTheme.textSecondary,
+              color: isSelected ? Colors.white : unselectedColor,
             ),
             SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(
                 fontSize: 12,
-                color: isSelected ? Colors.white : AppTheme.textSecondary,
+                color: isSelected ? Colors.white : unselectedColor,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
@@ -106,9 +129,11 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildCartNavItem() {
-    bool isSelected = _currentIndex == 3;
+    bool isSelected = _currentIndex == _cartIndex;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final unselectedColor = isDark ? Colors.white70 : AppTheme.textSecondary;
     return GestureDetector(
-      onTap: () => setState(() => _currentIndex = 3),
+      onTap: () => setState(() => _currentIndex = _cartIndex),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: isSelected
@@ -131,14 +156,14 @@ class _MainScreenState extends State<MainScreen> {
                   isSelected
                       ? Icons.shopping_cart
                       : Icons.shopping_cart_outlined,
-                  color: isSelected ? Colors.white : AppTheme.textSecondary,
+                  color: isSelected ? Colors.white : unselectedColor,
                 ),
                 SizedBox(height: 4),
                 Text(
                   "Cart",
                   style: TextStyle(
                     fontSize: 12,
-                    color: isSelected ? Colors.white : AppTheme.textSecondary,
+                    color: isSelected ? Colors.white : unselectedColor,
                     fontWeight:
                         isSelected ? FontWeight.w600 : FontWeight.normal,
                   ),

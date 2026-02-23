@@ -24,7 +24,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     'assets/images/grey cotton pant 2.png',
   ];
 
-  Widget _buildSizeOption(int index) {
+  Widget _buildSizeOption(
+    int index, {
+    required Color unselectedBgColor,
+    required Color unselectedBorderColor,
+    required Color unselectedTextColor,
+  }) {
     final sizes = ['XS', 'S', 'M', 'L', 'XL'];
     final isSelected = _selectedSize == index;
 
@@ -38,12 +43,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           vertical: 12,
         ),
         decoration: BoxDecoration(
-          color: isSelected ? AppTheme.primaryColor : Colors.white,
+          color: isSelected ? AppTheme.primaryColor : unselectedBgColor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected
-                ? AppTheme.primaryColor
-                : AppTheme.textSecondary.withOpacity(0.3),
+            color: isSelected ? AppTheme.primaryColor : unselectedBorderColor,
           ),
         ),
         child: Center(
@@ -52,7 +55,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
-              color: isSelected ? Colors.white : AppTheme.textPrimary,
+              color: isSelected ? Colors.white : unselectedTextColor,
             ),
           ),
         ),
@@ -97,7 +100,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Widget _buildFeature(IconData icon, String text) {
+  Widget _buildFeature(
+    IconData icon,
+    String text, {
+    required Color textColor,
+  }) {
     return Expanded(
       child: Column(
         children: [
@@ -117,7 +124,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             text,
             style: TextStyle(
               fontSize: 12,
-              color: AppTheme.textPrimary,
+              color: textColor,
             ),
             textAlign: TextAlign.center,
           ),
@@ -128,8 +135,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final surfaceColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final borderColor =
+        isDark ? Colors.white24 : AppTheme.textSecondary.withOpacity(0.3);
+    final bottomBarColor = isDark ? Color(0xFF0F172A) : Colors.white;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: Stack(
         children: [
           CustomScrollView(
@@ -138,7 +156,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 expandedHeight: 0,
                 floating: true,
                 pinned: true,
-                backgroundColor: Colors.white,
+                backgroundColor: surfaceColor,
                 elevation: 0,
                 leading: IconButton(
                   onPressed: () {
@@ -146,7 +164,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   },
                   icon: Icon(
                     Icons.arrow_back,
-                    color: AppTheme.textPrimary,
+                    color: titleColor,
                   ),
                 ),
                 actions: [
@@ -164,8 +182,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     },
                     icon: Icon(
                       _isFavorite ? Icons.favorite : Icons.favorite_border,
-                      color:
-                          _isFavorite ? AppTheme.error : AppTheme.textPrimary,
+                      color: _isFavorite ? AppTheme.error : titleColor,
                     ),
                   ),
                 ],
@@ -224,7 +241,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   shape: BoxShape.circle,
                                   color: _selectedImageIndex == index
                                       ? AppTheme.primaryColor
-                                      : AppTheme.textSecondary.withOpacity(0.3),
+                                      : subtitleColor.withOpacity(0.3),
                                 ),
                               ),
                             ),
@@ -270,7 +287,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               Text(
                                 "(245 Reviews)",
                                 style: TextStyle(
-                                  color: AppTheme.textSecondary,
+                                  color: subtitleColor,
                                 ),
                               ),
                               Spacer(),
@@ -299,7 +316,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           SizedBox(height: 8),
@@ -307,7 +324,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             "By Brand Name",
                             style: TextStyle(
                               fontSize: 16,
-                              color: AppTheme.textSecondary,
+                              color: subtitleColor,
                             ),
                           ),
                           SizedBox(height: 16),
@@ -327,8 +344,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 style: TextStyle(
                                   fontSize: 20,
                                   decoration: TextDecoration.lineThrough,
-                                  color:
-                                      AppTheme.textSecondary.withOpacity(0.5),
+                                  color: subtitleColor.withOpacity(0.5),
                                 ),
                               ),
                             ],
@@ -346,14 +362,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           SizedBox(height: 12),
                           Row(
                             children: List.generate(
                               5,
-                              (index) => _buildSizeOption(index),
+                              (index) => _buildSizeOption(
+                                index,
+                                unselectedBgColor: surfaceColor,
+                                unselectedBorderColor: borderColor,
+                                unselectedTextColor: titleColor,
+                              ),
                             ),
                           ),
                           SizedBox(height: 24),
@@ -362,7 +383,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           SizedBox(height: 12),
@@ -385,7 +406,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           SizedBox(height: 12),
@@ -394,16 +415,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             style: TextStyle(
                               fontSize: 14,
                               height: 1.6,
-                              color: AppTheme.textSecondary,
+                              color: subtitleColor,
                             ),
                           ),
                           SizedBox(height: 16),
                           Row(
                             children: [
-                              _buildFeature(Icons.eco, "Organic\nCotton"),
-                              _buildFeature(Icons.local_laundry_service,
-                                  "Machine\nWashable"),
-                              _buildFeature(Icons.verified, "Quality\nAssured"),
+                              _buildFeature(
+                                Icons.eco,
+                                "Organic\nCotton",
+                                textColor: titleColor,
+                              ),
+                              _buildFeature(
+                                Icons.local_laundry_service,
+                                "Machine\nWashable",
+                                textColor: titleColor,
+                              ),
+                              _buildFeature(
+                                Icons.verified,
+                                "Quality\nAssured",
+                                textColor: titleColor,
+                              ),
                             ],
                           ),
                         ],
@@ -422,7 +454,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: titleColor,
                                 ),
                               ),
                               TextButton(
@@ -444,11 +476,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           Container(
                             padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: surfaceColor,
                               borderRadius: BorderRadius.circular(16),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
+                                  color: shadowColor,
                                   blurRadius: 10,
                                   offset: Offset(0, 5),
                                 ),
@@ -480,7 +512,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             "John Doe",
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              color: AppTheme.textPrimary,
+                                              color: titleColor,
                                             ),
                                           ),
                                           Row(
@@ -518,7 +550,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     Text(
                                       "2 days ago",
                                       style: TextStyle(
-                                        color: AppTheme.textSecondary,
+                                        color: subtitleColor,
                                       ),
                                     ),
                                   ],
@@ -528,7 +560,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   "Great Product! The quality is amazing. Higly recommended.",
                                   style: TextStyle(
                                     height: 1.5,
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                               ],
@@ -551,10 +583,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               height: 100,
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: bottomBarColor,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: shadowColor,
                     blurRadius: 10,
                     offset: Offset(0, -5),
                   ),

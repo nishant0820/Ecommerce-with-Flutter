@@ -41,12 +41,16 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   }
 
   Widget _buildImagePreview(String image) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final previewBg =
+        isDark ? Color(0xFF1E293B) : AppTheme.primaryColor.withOpacity(0.1);
+
     return Container(
       width: 100,
       height: 100,
       margin: EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
-        color: AppTheme.primaryColor.withOpacity(0.1),
+        color: previewBg,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Stack(
@@ -80,6 +84,9 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
   }
 
   Widget _buildGuideLineItem(String text) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = isDark ? Colors.white : AppTheme.textPrimary;
+
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4),
       child: Row(
@@ -94,7 +101,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
             child: Text(
               text,
               style: TextStyle(
-                color: AppTheme.textPrimary,
+                color: textColor,
               ),
             ),
           ),
@@ -105,8 +112,20 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final inputFillColor = isDark ? Color(0xFF0F172A) : Colors.white;
+    final inputBorderColor =
+        isDark ? Colors.white24 : AppTheme.textSecondary.withOpacity(0.2);
+    final bottomSheetColor = isDark ? Color(0xFF0F172A) : Colors.white;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -143,11 +162,11 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -178,14 +197,14 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: titleColor,
                                 ),
                               ),
                               SizedBox(height: 4),
                               Text(
                                 "Size: M | Color: Blue",
                                 style: TextStyle(
-                                  color: AppTheme.textSecondary,
+                                  color: subtitleColor,
                                 ),
                               ),
                             ],
@@ -203,7 +222,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
@@ -253,7 +272,7 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           SizedBox(height: 16),
@@ -262,19 +281,18 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                             decoration: InputDecoration(
                               hintText: "Add a title for your review",
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: inputFillColor,
+                              hintStyle: TextStyle(color: subtitleColor),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color:
-                                      AppTheme.textSecondary.withOpacity(0.2),
+                                  color: inputBorderColor,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color:
-                                      AppTheme.textSecondary.withOpacity(0.2),
+                                  color: inputBorderColor,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
@@ -293,19 +311,18 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                               hintText:
                                   "Share your experience with this product",
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: inputFillColor,
+                              hintStyle: TextStyle(color: subtitleColor),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color:
-                                      AppTheme.textSecondary.withOpacity(0.2),
+                                  color: inputBorderColor,
                                 ),
                               ),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 borderSide: BorderSide(
-                                  color:
-                                      AppTheme.textSecondary.withOpacity(0.2),
+                                  color: inputBorderColor,
                                 ),
                               ),
                               focusedBorder: OutlineInputBorder(
@@ -325,14 +342,14 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: AppTheme.textPrimary,
+                                  color: titleColor,
                                 ),
                               ),
                               SizedBox(height: 8),
                               Text(
                                 "Share photos of the product to help other customers",
                                 style: TextStyle(
-                                  color: AppTheme.textSecondary,
+                                  color: subtitleColor,
                                 ),
                               ),
                               SizedBox(height: 16),
@@ -345,11 +362,10 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                                       width: 100,
                                       margin: EdgeInsets.only(right: 8),
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: cardBackgroundColor,
                                         borderRadius: BorderRadius.circular(12),
                                         border: Border.all(
-                                          color: AppTheme.textSecondary
-                                              .withOpacity(0.2),
+                                          color: inputBorderColor,
                                         ),
                                       ),
                                       child: InkWell(
@@ -389,7 +405,9 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
                           Container(
                             padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
-                              color: AppTheme.primaryColor.withOpacity(0.1),
+                              color: isDark
+                                  ? Color(0xFF1E293B)
+                                  : AppTheme.primaryColor.withOpacity(0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Column(
@@ -438,10 +456,10 @@ class _WriteReviewScreenState extends State<WriteReviewScreen> {
       bottomSheet: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: bottomSheetColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, -5),
             ),

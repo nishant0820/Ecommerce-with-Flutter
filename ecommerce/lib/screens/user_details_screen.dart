@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 class UserDetailsScreen extends StatelessWidget {
   const UserDetailsScreen({super.key});
 
-  Widget _buildSection(String title, List<Widget> children) {
+  Widget _buildSection(
+    String title,
+    List<Widget> children, {
+    required Color titleColor,
+  }) {
     return Padding(
       padding: EdgeInsets.all(20),
       child: Column(
@@ -15,6 +19,7 @@ class UserDetailsScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
+              color: titleColor,
             ),
           ),
           SizedBox(height: 10),
@@ -28,6 +33,7 @@ class UserDetailsScreen extends StatelessWidget {
     required IconData icon,
     required String label,
     required String value,
+    required Color labelColor,
     Color? valueColor,
   }) {
     return Padding(
@@ -55,7 +61,7 @@ class UserDetailsScreen extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 12,
-                    color: AppTheme.textSecondary,
+                    color: labelColor,
                   ),
                 ),
                 SizedBox(height: 4),
@@ -77,8 +83,16 @@ class UserDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.1);
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: Stack(
         children: [
           Container(
@@ -172,11 +186,11 @@ class UserDetailsScreen extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 24),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: shadowColor,
                           blurRadius: 20,
                           offset: Offset(0, 10),
                         ),
@@ -192,18 +206,25 @@ class UserDetailsScreen extends StatelessWidget {
                               icon: Icons.badge,
                               label: "Full Name",
                               value: "John Doe",
+                              labelColor: subtitleColor,
+                              valueColor: titleColor,
                             ),
                             _buildInfoRow(
                               icon: Icons.email,
                               label: "Email",
                               value: "johndoe@gmail.com",
+                              labelColor: subtitleColor,
+                              valueColor: titleColor,
                             ),
                             _buildInfoRow(
                               icon: Icons.phone,
                               label: "Phone",
                               value: "+91 9876543210",
+                              labelColor: subtitleColor,
+                              valueColor: titleColor,
                             ),
                           ],
+                          titleColor: titleColor,
                         ),
                         _buildSection(
                           "More Information",
@@ -212,13 +233,18 @@ class UserDetailsScreen extends StatelessWidget {
                               icon: Icons.calendar_today,
                               label: "Date of Birth",
                               value: "9 March 2025",
+                              labelColor: subtitleColor,
+                              valueColor: titleColor,
                             ),
                             _buildInfoRow(
                               icon: Icons.person,
                               label: "Gender",
                               value: "Male",
+                              labelColor: subtitleColor,
+                              valueColor: titleColor,
                             ),
                           ],
+                          titleColor: titleColor,
                         ),
                         _buildSection(
                           "Account Information",
@@ -227,8 +253,11 @@ class UserDetailsScreen extends StatelessWidget {
                               icon: Icons.calendar_month,
                               label: "Member Since",
                               value: "Jan 2025",
+                              labelColor: subtitleColor,
+                              valueColor: titleColor,
                             ),
                           ],
+                          titleColor: titleColor,
                         ),
                       ],
                     ),

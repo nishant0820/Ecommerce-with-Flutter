@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  static final ValueNotifier<bool> isDarkMode = ValueNotifier<bool>(false);
+
   static const Color primaryColor = Color(0xFF26A69A);
   static const Color primaryLight = Color(0xFFB2DFDB);
   static const Color primaryDark = Color(0xFF00897B);
@@ -51,6 +53,42 @@ class AppTheme {
         ),
         bodyMedium: TextStyle(
           color: textSecondary,
+          fontSize: 14,
+        ),
+      ),
+    );
+  }
+
+  static ThemeData get darkTheme {
+    return ThemeData(
+      brightness: Brightness.dark,
+      primaryColor: primaryColor,
+      scaffoldBackgroundColor: const Color(0xFF0F172A),
+      colorScheme: const ColorScheme.dark(
+        primary: primaryColor,
+        secondary: secondaryColor,
+        tertiary: tertiaryColor,
+        surface: Color(0xFF1E293B),
+        error: error,
+      ),
+      fontFamily: 'Poppins',
+      textTheme: const TextTheme(
+        displayLarge: TextStyle(
+          color: Colors.white,
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+        ),
+        displayMedium: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+        bodyLarge: TextStyle(
+          color: Colors.white,
+          fontSize: 16,
+        ),
+        bodyMedium: TextStyle(
+          color: Color(0xFF94A3B8),
           fontSize: 14,
         ),
       ),

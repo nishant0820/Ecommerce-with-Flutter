@@ -1,5 +1,7 @@
+import 'package:ecommerce/screens/help_support_screen.dart';
 import 'package:ecommerce/screens/my_orders_screen.dart';
 import 'package:ecommerce/screens/notifications_screen.dart';
+import 'package:ecommerce/screens/settings_screen.dart';
 import 'package:ecommerce/screens/user_details_screen.dart';
 import 'package:ecommerce/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -12,16 +14,19 @@ class ProfileScreen extends StatelessWidget {
     required String title,
     required String value,
     required Color color,
+    required Color backgroundColor,
+    required Color subtitleColor,
+    required Color shadowColor,
   }) {
     return Expanded(
       child: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: backgroundColor,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
-              color: color.withOpacity(0.1),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, 5),
             ),
@@ -44,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
               title,
               style: TextStyle(
                 fontSize: 12,
-                color: AppTheme.textSecondary,
+                color: subtitleColor,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -57,6 +62,9 @@ class ProfileScreen extends StatelessWidget {
   Widget _buildSection({
     required String title,
     required List<Widget> items,
+    required Color titleColor,
+    required Color backgroundColor,
+    required Color shadowColor,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,17 +76,17 @@ class ProfileScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: AppTheme.textPrimary,
+              color: titleColor,
             ),
           ),
         ),
         Container(
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: shadowColor,
                 offset: Offset(0, 5),
               ),
             ],
@@ -97,6 +105,9 @@ class ProfileScreen extends StatelessWidget {
     required String subtitle,
     required VoidCallback onTap,
     required Color color,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color trailingColor,
     bool isDestructive = false,
   }) {
     return InkWell(
@@ -130,15 +141,14 @@ class ProfileScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color:
-                          isDestructive ? AppTheme.error : AppTheme.textPrimary,
+                      color: isDestructive ? AppTheme.error : titleColor,
                     ),
                   ),
                   Text(
                     subtitle,
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppTheme.textSecondary,
+                      color: subtitleColor,
                     ),
                   ),
                 ],
@@ -146,7 +156,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             Icon(
               Icons.chevron_right,
-              color: AppTheme.textSecondary,
+              color: trailingColor,
               size: 20,
             ),
           ],
@@ -157,8 +167,16 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.08);
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -229,11 +247,11 @@ class ProfileScreen extends StatelessWidget {
                       margin: EdgeInsets.symmetric(horizontal: 24),
                       padding: EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: cardBackgroundColor,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: shadowColor,
                             blurRadius: 20,
                             offset: Offset(0, 10),
                           ),
@@ -255,7 +273,7 @@ class ProfileScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           SizedBox(height: 8),
@@ -263,7 +281,7 @@ class ProfileScreen extends StatelessWidget {
                             "johndoe@gmail.com",
                             style: TextStyle(
                               fontSize: 14,
-                              color: AppTheme.textSecondary,
+                              color: subtitleColor,
                             ),
                           ),
                         ],
@@ -280,6 +298,9 @@ class ProfileScreen extends StatelessWidget {
                             title: 'Orders',
                             value: '12',
                             color: AppTheme.primaryColor,
+                            backgroundColor: cardBackgroundColor,
+                            subtitleColor: subtitleColor,
+                            shadowColor: shadowColor,
                           ),
                           SizedBox(width: 12),
                           _buildActionCard(
@@ -287,6 +308,9 @@ class ProfileScreen extends StatelessWidget {
                             title: 'Wishlist',
                             value: '4',
                             color: AppTheme.secondaryColor,
+                            backgroundColor: cardBackgroundColor,
+                            subtitleColor: subtitleColor,
+                            shadowColor: shadowColor,
                           ),
                           SizedBox(width: 12),
                           _buildActionCard(
@@ -294,6 +318,9 @@ class ProfileScreen extends StatelessWidget {
                             title: 'Shipping',
                             value: '2',
                             color: AppTheme.tertiaryColor,
+                            backgroundColor: cardBackgroundColor,
+                            subtitleColor: subtitleColor,
+                            shadowColor: shadowColor,
                           ),
                         ],
                       ),
@@ -305,6 +332,9 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           _buildSection(
                             title: 'Account Settings',
+                            titleColor: titleColor,
+                            backgroundColor: cardBackgroundColor,
+                            shadowColor: shadowColor,
                             items: [
                               _buildMenuItem(
                                 icon: Icons.person_outline,
@@ -319,6 +349,9 @@ class ProfileScreen extends StatelessWidget {
                                   );
                                 },
                                 color: AppTheme.primaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.lock_outline,
@@ -333,6 +366,9 @@ class ProfileScreen extends StatelessWidget {
                                   // );
                                 },
                                 color: AppTheme.primaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.notifications,
@@ -348,12 +384,18 @@ class ProfileScreen extends StatelessWidget {
                                   );
                                 },
                                 color: AppTheme.primaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                             ],
                           ),
                           SizedBox(height: 24),
                           _buildSection(
                             title: 'Shopping Preferences',
+                            titleColor: titleColor,
+                            backgroundColor: cardBackgroundColor,
+                            shadowColor: shadowColor,
                             items: [
                               _buildMenuItem(
                                 icon: Icons.shopping_bag_outlined,
@@ -368,6 +410,9 @@ class ProfileScreen extends StatelessWidget {
                                   );
                                 },
                                 color: AppTheme.secondaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.location_on_outlined,
@@ -375,6 +420,9 @@ class ProfileScreen extends StatelessWidget {
                                 subtitle: 'Manage your delivery addresses',
                                 onTap: () {},
                                 color: AppTheme.secondaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.payment_outlined,
@@ -382,26 +430,52 @@ class ProfileScreen extends StatelessWidget {
                                 subtitle: 'Manage your payment options',
                                 onTap: () {},
                                 color: AppTheme.secondaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                             ],
                           ),
                           SizedBox(height: 24),
                           _buildSection(
                             title: 'More',
+                            titleColor: titleColor,
+                            backgroundColor: cardBackgroundColor,
+                            shadowColor: shadowColor,
                             items: [
                               _buildMenuItem(
                                 icon: Icons.settings_outlined,
                                 title: 'Settings',
                                 subtitle: 'App preferences and settings',
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => SettingsScreen(),
+                                    ),
+                                  );
+                                },
                                 color: AppTheme.tertiaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.help_outline,
                                 title: 'Help & Support',
                                 subtitle: 'Get Help and contact us',
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const HelpSupportScreen(),
+                                    ),
+                                  );
+                                },
                                 color: AppTheme.tertiaryColor,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                               ),
                               _buildMenuItem(
                                 icon: Icons.logout,
@@ -409,6 +483,9 @@ class ProfileScreen extends StatelessWidget {
                                 subtitle: 'Sign out from your account',
                                 onTap: () {},
                                 color: AppTheme.error,
+                                titleColor: titleColor,
+                                subtitleColor: subtitleColor,
+                                trailingColor: subtitleColor,
                                 isDestructive: true,
                               ),
                             ],

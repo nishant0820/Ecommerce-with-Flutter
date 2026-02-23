@@ -6,6 +6,15 @@ class CategoriesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final borderColor = isDark ? Colors.white12 : Colors.transparent;
+
     final subcategories = [
       {'icon': Icons.checkroom_outlined, 'name': 'Clothing'},
       {'icon': Icons.watch_outlined, 'name': 'Accessories'},
@@ -15,7 +24,7 @@ class CategoriesScreen extends StatelessWidget {
       {'icon': Icons.sports_baseball_outlined, 'name': 'Sports'},
     ];
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -61,11 +70,12 @@ class CategoriesScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Container(
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: cardBackgroundColor,
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: borderColor),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
+                            color: shadowColor,
                             blurRadius: 10,
                             offset: Offset(0, 5),
                           ),
@@ -91,6 +101,7 @@ class CategoriesScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
+                              color: titleColor,
                             ),
                           ),
                         ],
@@ -108,7 +119,7 @@ class CategoriesScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                     ),
@@ -123,11 +134,12 @@ class CategoriesScreen extends StatelessWidget {
                             width: 120,
                             margin: EdgeInsets.only(right: 16, bottom: 10),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: cardBackgroundColor,
                               borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: borderColor),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.05),
+                                  color: shadowColor,
                                   blurRadius: 10,
                                   offset: Offset(0, 5),
                                 ),
@@ -154,7 +166,7 @@ class CategoriesScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                     ),
@@ -168,11 +180,12 @@ class CategoriesScreen extends StatelessWidget {
                         return Container(
                           margin: EdgeInsets.only(right: 16, bottom: 10),
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: cardBackgroundColor,
                             borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: borderColor),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: shadowColor,
                                 blurRadius: 10,
                                 offset: Offset(0, 5),
                               ),
@@ -194,17 +207,19 @@ class CategoriesScreen extends StatelessWidget {
                               subcategories[index]['name'] as String,
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
+                                color: titleColor,
                               ),
                             ),
                             subtitle: Text(
                               '${(index + 1 * 100)} Products',
                               style: TextStyle(
-                                color: AppTheme.textSecondary,
+                                color: subtitleColor,
                               ),
                             ),
                             trailing: Icon(
                               Icons.arrow_forward_ios,
                               size: 16,
+                              color: subtitleColor,
                             ),
                           ),
                         );

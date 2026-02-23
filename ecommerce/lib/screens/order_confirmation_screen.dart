@@ -14,6 +14,10 @@ class OrderConfirmationScreen extends StatefulWidget {
 
 class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
   Widget _buildStep(int number, String title, bool isActive) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final inactiveColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final inactiveBg = isDark ? Color(0xFF1E293B) : Colors.white;
+
     return Expanded(
       child: Column(
         children: [
@@ -22,10 +26,9 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
             height: 30,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: isActive ? AppTheme.primaryColor : Colors.white,
+              color: isActive ? AppTheme.primaryColor : inactiveBg,
               border: Border.all(
-                color:
-                    isActive ? AppTheme.primaryColor : AppTheme.textSecondary,
+                color: isActive ? AppTheme.primaryColor : inactiveColor,
                 width: 2,
               ),
             ),
@@ -33,7 +36,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
               child: Text(
                 number.toString(),
                 style: TextStyle(
-                  color: isActive ? Colors.white : AppTheme.textSecondary,
+                  color: isActive ? Colors.white : inactiveColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -43,7 +46,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
           Text(
             title,
             style: TextStyle(
-              color: isActive ? AppTheme.primaryColor : AppTheme.textSecondary,
+              color: isActive ? AppTheme.primaryColor : inactiveColor,
               fontSize: 12,
               fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
             ),
@@ -54,12 +57,13 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
   }
 
   Widget _buildStepConnector(bool isActive) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final inactiveColor =
+        isDark ? Colors.white24 : AppTheme.textSecondary.withOpacity(0.2);
     return Container(
       width: 40,
       height: 2,
-      color: isActive
-          ? AppTheme.primaryColor
-          : AppTheme.textSecondary.withOpacity(0.2),
+      color: isActive ? AppTheme.primaryColor : inactiveColor,
     );
   }
 
@@ -68,6 +72,8 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
     String value, {
     bool isBold = false,
     Color? valueColor,
+    required Color labelColor,
+    required Color defaultValueColor,
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 4),
@@ -79,7 +85,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              color: AppTheme.textSecondary,
+              color: labelColor,
             ),
           ),
           Text(
@@ -87,7 +93,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
             style: TextStyle(
               fontSize: 14,
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              color: valueColor ?? AppTheme.textPrimary,
+              color: valueColor ?? defaultValueColor,
             ),
           ),
         ],
@@ -97,8 +103,19 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final dividerColor =
+        isDark ? Colors.white24 : Colors.black.withOpacity(0.1);
+    final bottomSheetColor = isDark ? Color(0xFF0F172A) : Colors.white;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -164,7 +181,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 8),
@@ -173,7 +190,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14,
-                          color: AppTheme.textSecondary,
+                          color: subtitleColor,
                         ),
                       ),
                     ],
@@ -183,11 +200,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                   margin: EdgeInsets.all(16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -201,15 +218,33 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
-                      _buildDetailRow('Order No', "#ORDER123456"),
-                      _buildDetailRow('Order Date', "Feb 9, 2025"),
-                      _buildDetailRow('Total Amount', "Rs. 1002.95"),
+                      _buildDetailRow(
+                        'Order No',
+                        "#ORDER123456",
+                        labelColor: subtitleColor,
+                        defaultValueColor: titleColor,
+                      ),
+                      _buildDetailRow(
+                        'Order Date',
+                        "Feb 9, 2025",
+                        labelColor: subtitleColor,
+                        defaultValueColor: titleColor,
+                      ),
+                      _buildDetailRow(
+                        'Total Amount',
+                        "Rs. 1002.95",
+                        labelColor: subtitleColor,
+                        defaultValueColor: titleColor,
+                      ),
                       _buildDetailRow('Status', "Processing",
-                          valueColor: AppTheme.warning, isBold: true),
+                          valueColor: AppTheme.warning,
+                          isBold: true,
+                          labelColor: subtitleColor,
+                          defaultValueColor: titleColor),
                     ],
                   ),
                 ),
@@ -217,11 +252,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                   margin: EdgeInsets.all(16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -235,7 +270,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
@@ -261,14 +296,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                                   "Delivery Address",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                                 SizedBox(height: 4),
                                 Text(
                                   "F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia",
                                   style: TextStyle(
-                                    color: AppTheme.textPrimary,
+                                    color: titleColor,
                                   ),
                                 ),
                               ],
@@ -277,7 +312,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                         ],
                       ),
                       SizedBox(height: 16),
-                      Divider(),
+                      Divider(color: dividerColor),
                       SizedBox(height: 16),
                       Row(
                         children: [
@@ -301,14 +336,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                                   "Delivery Method",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                                 SizedBox(height: 4),
                                 Text(
                                   "Express Delivery (1-2) Business Days",
                                   style: TextStyle(
-                                    color: AppTheme.textPrimary,
+                                    color: titleColor,
                                   ),
                                 ),
                               ],
@@ -323,11 +358,11 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                   margin: EdgeInsets.all(16),
                   padding: EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: cardBackgroundColor,
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: shadowColor,
                         blurRadius: 10,
                         offset: Offset(0, 5),
                       ),
@@ -341,7 +376,7 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textPrimary,
+                          color: titleColor,
                         ),
                       ),
                       SizedBox(height: 16),
@@ -367,14 +402,14 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                                   "Payment Method",
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color: AppTheme.textSecondary,
+                                    color: subtitleColor,
                                   ),
                                 ),
                                 SizedBox(height: 4),
                                 Text(
                                   "Credit Card **** **** **** 1234",
                                   style: TextStyle(
-                                    color: AppTheme.textPrimary,
+                                    color: titleColor,
                                   ),
                                 ),
                               ],
@@ -383,16 +418,38 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
                         ],
                       ),
                       SizedBox(height: 16),
-                      Divider(),
+                      Divider(color: dividerColor),
                       SizedBox(height: 16),
-                      _buildDetailRow('Subtotal', "Rs. 899.97"),
-                      _buildDetailRow('Shipping', "Rs. 12.99"),
-                      _buildDetailRow('Tax', "Rs. 89.99"),
+                      _buildDetailRow(
+                        'Subtotal',
+                        "Rs. 899.97",
+                        labelColor: subtitleColor,
+                        defaultValueColor: titleColor,
+                      ),
+                      _buildDetailRow(
+                        'Shipping',
+                        "Rs. 12.99",
+                        labelColor: subtitleColor,
+                        defaultValueColor: titleColor,
+                      ),
+                      _buildDetailRow(
+                        'Tax',
+                        "Rs. 89.99",
+                        labelColor: subtitleColor,
+                        defaultValueColor: titleColor,
+                      ),
                       Divider(
                         height: 24,
+                        color: dividerColor,
                       ),
-                      _buildDetailRow('Total', "Rs. 1002.95",
-                          isBold: true, valueColor: AppTheme.primaryColor),
+                      _buildDetailRow(
+                        'Total',
+                        "Rs. 1002.95",
+                        isBold: true,
+                        valueColor: AppTheme.primaryColor,
+                        labelColor: subtitleColor,
+                        defaultValueColor: titleColor,
+                      ),
                     ],
                   ),
                 ),
@@ -405,10 +462,10 @@ class _OrderConfirmationScreenState extends State<OrderConfirmationScreen> {
       bottomSheet: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: bottomSheetColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, -5),
             ),

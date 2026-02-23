@@ -22,14 +22,24 @@ class HomeScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.1);
+    final borderColor = isDark ? Colors.white12 : Colors.transparent;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: 100,
             floating: false,
             pinned: true,
+            automaticallyImplyLeading: false,
             backgroundColor: Colors.transparent,
             flexibleSpace: Container(
               decoration: BoxDecoration(
@@ -122,11 +132,11 @@ class HomeScreen extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     height: 60,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
+                          color: shadowColor,
                           blurRadius: 20,
                           offset: Offset(0, 5),
                         ),
@@ -141,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                           hintText: 'Search Products',
                           border: InputBorder.none,
                           hintStyle: TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: subtitleColor,
                           ),
                           suffixIcon: IconButton(
                             icon: Icon(Icons.search),
@@ -173,7 +183,7 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           TextButton(
@@ -207,11 +217,12 @@ class HomeScreen extends StatelessWidget {
                             width: 90,
                             margin: EdgeInsets.all(6),
                             decoration: BoxDecoration(
-                              color: Colors.white,
+                              color: cardBackgroundColor,
                               borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: borderColor),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
+                                  color: shadowColor,
                                   blurRadius: 10,
                                   offset: Offset(0, 5),
                                 ),
@@ -238,6 +249,7 @@ class HomeScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
+                                    color: titleColor,
                                   ),
                                 ),
                               ],
@@ -263,7 +275,7 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           TextButton(
@@ -300,11 +312,12 @@ class HomeScreen extends StatelessWidget {
                               width: 200,
                               margin: EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.white,
+                                color: cardBackgroundColor,
                                 borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: borderColor),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(0.1),
+                                    color: shadowColor,
                                     blurRadius: 20,
                                     offset: Offset(0, 5),
                                   ),
@@ -340,7 +353,7 @@ class HomeScreen extends StatelessWidget {
                                         child: Container(
                                           padding: EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                            color: cardBackgroundColor,
                                             shape: BoxShape.circle,
                                           ),
                                           child: Icon(
@@ -363,7 +376,7 @@ class HomeScreen extends StatelessWidget {
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            color: AppTheme.textPrimary,
+                                            color: titleColor,
                                           ),
                                         ),
                                         SizedBox(height: 4),
@@ -371,7 +384,7 @@ class HomeScreen extends StatelessWidget {
                                           "Category",
                                           style: TextStyle(
                                             fontSize: 14,
-                                            color: AppTheme.textSecondary,
+                                            color: subtitleColor,
                                           ),
                                         ),
                                         SizedBox(height: 8),
@@ -427,7 +440,7 @@ class HomeScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: AppTheme.textPrimary,
+                              color: titleColor,
                             ),
                           ),
                           TextButton(
@@ -454,10 +467,11 @@ class HomeScreen extends StatelessWidget {
                           margin: EdgeInsets.only(bottom: 16),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: Colors.white,
+                            color: cardBackgroundColor,
+                            border: Border.all(color: borderColor),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.1),
+                                color: shadowColor,
                                 blurRadius: 20,
                                 offset: Offset(0, 5),
                               ),
@@ -496,7 +510,7 @@ class HomeScreen extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
-                                          color: AppTheme.textPrimary,
+                                          color: titleColor,
                                         ),
                                       ),
                                       SizedBox(height: 4),
@@ -504,7 +518,7 @@ class HomeScreen extends StatelessWidget {
                                         "Category",
                                         style: TextStyle(
                                           fontSize: 14,
-                                          color: AppTheme.textSecondary,
+                                          color: subtitleColor,
                                         ),
                                       ),
                                       SizedBox(height: 4),
@@ -541,7 +555,7 @@ class HomeScreen extends StatelessWidget {
                                                   "4.5",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
-                                                    color: AppTheme.textPrimary,
+                                                    color: titleColor,
                                                   ),
                                                 ),
                                               ],

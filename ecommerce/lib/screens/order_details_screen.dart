@@ -12,16 +12,20 @@ class OrderDetailsScreen extends StatelessWidget {
     required String variant,
     required double price,
     required int quanity,
+    required Color cardBackgroundColor,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color shadowColor,
   }) {
     return Container(
       padding: EdgeInsets.all(16),
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: cardBackgroundColor,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: shadowColor,
             blurRadius: 10,
             offset: Offset(0, 5),
           ),
@@ -51,7 +55,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textPrimary,
+                    color: titleColor,
                   ),
                 ),
                 SizedBox(height: 4),
@@ -59,7 +63,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   variant,
                   style: TextStyle(
                     fontSize: 14,
-                    color: AppTheme.textSecondary,
+                    color: subtitleColor,
                   ),
                 ),
                 SizedBox(height: 8),
@@ -77,7 +81,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Text(
                       'Qty: $quanity',
                       style: TextStyle(
-                        color: AppTheme.textSecondary,
+                        color: subtitleColor,
                       ),
                     ),
                   ],
@@ -90,8 +94,13 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDetailItem(String label, String value,
-      {bool isPrimary = false}) {
+  Widget _buildDetailItem(
+    String label,
+    String value, {
+    required Color titleColor,
+    required Color subtitleColor,
+    bool isPrimary = false,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8),
       child: Row(
@@ -101,14 +110,14 @@ class OrderDetailsScreen extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 14,
-              color: AppTheme.textSecondary,
+              color: subtitleColor,
             ),
           ),
           Text(
             value,
             style: TextStyle(
               fontSize: 16,
-              color: isPrimary ? AppTheme.primaryColor : AppTheme.textSecondary,
+              color: isPrimary ? AppTheme.primaryColor : titleColor,
               fontWeight: isPrimary ? FontWeight.bold : FontWeight.normal,
             ),
           ),
@@ -119,8 +128,19 @@ class OrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final dividerColor =
+        isDark ? Colors.white24 : Colors.black.withOpacity(0.1);
+    final bottomSheetColor = isDark ? Color(0xFF0F172A) : Colors.white;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -157,11 +177,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -178,7 +198,7 @@ class OrderDetailsScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
-                                color: AppTheme.textPrimary,
+                                color: titleColor,
                               ),
                             ),
                             Container(
@@ -202,7 +222,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         Text(
                           "Ordered on Feb 12, 2025",
                           style: TextStyle(
-                            color: AppTheme.textSecondary,
+                            color: subtitleColor,
                           ),
                         ),
                       ],
@@ -214,7 +234,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: titleColor,
                     ),
                   ),
                   SizedBox(height: 16),
@@ -224,6 +244,10 @@ class OrderDetailsScreen extends StatelessWidget {
                     variant: "Color: Black | Size: M",
                     price: 59.99,
                     quanity: 2,
+                    cardBackgroundColor: cardBackgroundColor,
+                    titleColor: titleColor,
+                    subtitleColor: subtitleColor,
+                    shadowColor: shadowColor,
                   ),
                   _buildOrderItem(
                     image: 'assets/images/cotton pant 1.png',
@@ -231,16 +255,20 @@ class OrderDetailsScreen extends StatelessWidget {
                     variant: "Color: Grey | Size: L",
                     price: 99.99,
                     quanity: 1,
+                    cardBackgroundColor: cardBackgroundColor,
+                    titleColor: titleColor,
+                    subtitleColor: subtitleColor,
+                    shadowColor: shadowColor,
                   ),
                   SizedBox(height: 24),
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -254,16 +282,36 @@ class OrderDetailsScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: titleColor,
                           ),
                         ),
                         SizedBox(height: 16),
-                        _buildDetailItem("Subtotal", '\Rs. 150.99'),
-                        _buildDetailItem("Shipping", '\Rs. 15.99'),
-                        _buildDetailItem("Tax", '\Rs. 18.00'),
-                        Divider(height: 24),
-                        _buildDetailItem("Total", '\Rs. 299.99',
-                            isPrimary: true),
+                        _buildDetailItem(
+                          "Subtotal",
+                          '\Rs. 150.99',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                        ),
+                        _buildDetailItem(
+                          "Shipping",
+                          '\Rs. 15.99',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                        ),
+                        _buildDetailItem(
+                          "Tax",
+                          '\Rs. 18.00',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                        ),
+                        Divider(height: 24, color: dividerColor),
+                        _buildDetailItem(
+                          "Total",
+                          '\Rs. 299.99',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                          isPrimary: true,
+                        ),
                       ],
                     ),
                   ),
@@ -271,11 +319,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -289,14 +337,26 @@ class OrderDetailsScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: titleColor,
                           ),
                         ),
                         SizedBox(height: 16),
-                        _buildDetailItem('Name', 'John Doe'),
-                        _buildDetailItem('Phone', '+91 9899459288'),
+                        _buildDetailItem(
+                          'Name',
+                          'John Doe',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                        ),
+                        _buildDetailItem(
+                          'Phone',
+                          '+91 9899459288',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                        ),
                         _buildDetailItem('Address',
-                            'F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia'),
+                            'F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia',
+                            titleColor: titleColor,
+                            subtitleColor: subtitleColor),
                       ],
                     ),
                   ),
@@ -304,11 +364,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -322,14 +382,26 @@ class OrderDetailsScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: titleColor,
                           ),
                         ),
                         SizedBox(height: 16),
-                        _buildDetailItem('Name', 'John Doe'),
-                        _buildDetailItem('Phone', '+91 9899459288'),
+                        _buildDetailItem(
+                          'Name',
+                          'John Doe',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                        ),
+                        _buildDetailItem(
+                          'Phone',
+                          '+91 9899459288',
+                          titleColor: titleColor,
+                          subtitleColor: subtitleColor,
+                        ),
                         _buildDetailItem('Address',
-                            'F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia'),
+                            'F-61/2A Street 1, Yamuna Vihar\nNew Delhi, Delhi-110053\nIndia',
+                            titleColor: titleColor,
+                            subtitleColor: subtitleColor),
                       ],
                     ),
                   ),
@@ -337,11 +409,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: cardBackgroundColor,
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
+                          color: shadowColor,
                           blurRadius: 10,
                           offset: Offset(0, 5),
                         ),
@@ -355,7 +427,7 @@ class OrderDetailsScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textPrimary,
+                            color: titleColor,
                           ),
                         ),
                         SizedBox(height: 16),
@@ -381,14 +453,14 @@ class OrderDetailsScreen extends StatelessWidget {
                                     "Payment Method",
                                     style: TextStyle(
                                       fontSize: 14,
-                                      color: AppTheme.textSecondary,
+                                      color: subtitleColor,
                                     ),
                                   ),
                                   SizedBox(height: 4),
                                   Text(
                                     "Credit Card **** **** **** 1234",
                                     style: TextStyle(
-                                      color: AppTheme.textPrimary,
+                                      color: titleColor,
                                     ),
                                   ),
                                 ],
@@ -409,10 +481,10 @@ class OrderDetailsScreen extends StatelessWidget {
       bottomSheet: Container(
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: bottomSheetColor,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, -5),
             ),

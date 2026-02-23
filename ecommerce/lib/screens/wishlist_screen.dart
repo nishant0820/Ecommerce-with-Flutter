@@ -13,8 +13,17 @@ class WishlistScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final pageBackgroundColor = Theme.of(context).scaffoldBackgroundColor;
+    final cardBackgroundColor = isDark ? Color(0xFF1E293B) : Colors.white;
+    final titleColor = isDark ? Colors.white : AppTheme.textPrimary;
+    final subtitleColor = isDark ? Colors.white70 : AppTheme.textSecondary;
+    final shadowColor =
+        isDark ? Colors.black.withOpacity(0.3) : Colors.black.withOpacity(0.05);
+    final borderColor = isDark ? Colors.white12 : Colors.transparent;
+
     return Scaffold(
-      backgroundColor: AppTheme.backgroundColor,
+      backgroundColor: pageBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -79,7 +88,15 @@ class WishlistScreen extends StatelessWidget {
                 crossAxisSpacing: 16,
               ),
               delegate: SliverChildBuilderDelegate(
-                (context, index) => _buildWishlistItem(context, index),
+                (context, index) => _buildWishlistItem(
+                  context,
+                  index,
+                  cardBackgroundColor: cardBackgroundColor,
+                  titleColor: titleColor,
+                  subtitleColor: subtitleColor,
+                  shadowColor: shadowColor,
+                  borderColor: borderColor,
+                ),
                 childCount: 4,
               ),
             ),
@@ -94,16 +111,25 @@ class WishlistScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildWishlistItem(BuildContext context, int index) {
+  Widget _buildWishlistItem(
+    BuildContext context,
+    int index, {
+    required Color cardBackgroundColor,
+    required Color titleColor,
+    required Color subtitleColor,
+    required Color shadowColor,
+    required Color borderColor,
+  }) {
     return GestureDetector(
       onTap: () {},
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: cardBackgroundColor,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: borderColor),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: shadowColor,
               blurRadius: 10,
               offset: Offset(0, 5),
             ),
@@ -181,7 +207,7 @@ class WishlistScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textPrimary,
+                      color: titleColor,
                     ),
                   ),
                   SizedBox(height: 4),
@@ -189,7 +215,7 @@ class WishlistScreen extends StatelessWidget {
                     "Category",
                     style: TextStyle(
                       fontSize: 12,
-                      color: AppTheme.textSecondary,
+                      color: subtitleColor,
                     ),
                   ),
                   SizedBox(height: 8),
@@ -211,7 +237,7 @@ class WishlistScreen extends StatelessWidget {
                             '\Rs. 350.99',
                             style: TextStyle(
                               fontSize: 12,
-                              color: AppTheme.textSecondary,
+                              color: subtitleColor,
                               decoration: TextDecoration.lineThrough,
                             ),
                           ),
